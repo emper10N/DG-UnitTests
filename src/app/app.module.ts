@@ -6,12 +6,12 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserRegisterComponent } from './components/authorization/user-register/user-register.component';
+import { UserAuthorizationComponent } from './components/authorization/authorization.component';
 
 @NgModule({
   declarations: [AppComponent],
   providers: [provideClientHydration()],
   bootstrap: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, UserRegisterComponent],
+  imports: [BrowserModule, AppRoutingModule, UserAuthorizationComponent],
 })
 export class AppModule {}
