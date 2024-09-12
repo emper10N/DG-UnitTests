@@ -8,6 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
+import { CustomValidators } from '../../../services/custom-validator/custom-validator.component';
+import { ValidatorsHandlerComponent } from '../../../validators-handler/validators-handler.component';
+import { InputControlComponent } from '../../input-control/input-control.component';
 
 @Component({
   selector: 'app-register',
@@ -18,6 +21,8 @@ import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
     NgTemplateOutlet,
     NgIf,
     CommonModule,
+    ValidatorsHandlerComponent,
+    InputControlComponent,
   ],
   templateUrl: 'user-register.component.html',
 })
@@ -29,9 +34,16 @@ export class UserRegisterComponent {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      userName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      username: ['', Validators.required],
+      email: ['', [Validators.required, CustomValidators.emailValidator]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(32),
+        ],
+      ],
     });
   }
 
