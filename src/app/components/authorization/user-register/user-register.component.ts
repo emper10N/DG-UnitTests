@@ -10,8 +10,10 @@ import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
 import { CustomValidators } from '../../../services/custom-validator/custom-validator.service';
 import { ValidatorsHandlerComponent } from '../../../validators-handler/validators-handler.component';
 import { InputControlComponent } from '../../input-control/input-control.component';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../../services/auth/auth.service';
+import { IUser } from '../../../interfaces/user.interface';
+import { IRequest } from '../../../interfaces/request.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-register',
@@ -29,13 +31,11 @@ import { AuthService } from '../../../services/auth/auth.service';
 })
 export class UserRegisterComponent implements OnInit {
   registerForm!: FormGroup;
-  http = inject(HttpClient);
+  user!: IUser;
+  private _authService: AuthService = inject(AuthService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private httpClient: HttpClient
-  ) {}
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -56,21 +56,15 @@ export class UserRegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    const user = {
-      id: '1123',
-      username: 'aboba',
-      email: 'd@ff.com',
-      password: 'porno',
-      token: 'iaushguhg',
+    this.user = {
+      username: this.registerForm.get('username')?.value,
+      password: this.registerForm.get('password')?.value,
     };
-    this.httpClient
-      .post<any>('http://localhost:3000/users/', user)
-      .subscribe((res: any) => {
-        if (res.result) {
-          alert('ez');
-        } else {
-          alert(res.message);
-        }
+    this._authService
+      .register(this.user)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((res: IRequest) => {
+        this._authService.setToken(res.accessToken);
       });
   }
 

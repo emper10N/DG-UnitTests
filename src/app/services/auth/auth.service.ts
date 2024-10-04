@@ -1,29 +1,42 @@
-import { Injectable } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import {
+  afterNextRender,
+  Inject,
+  Injectable,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api/api.service';
+import { IUser } from '../../interfaces/user.interface';
+import { IRequest } from '../../interfaces/request.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(
-    private apiService: ApiService //private cookieService: CookieService
-  ) {}
+  private isLocalStorageAvailable = typeof localStorage !== 'undefined';
+  constructor(private apiService: ApiService) {}
 
-  register(userData: any): Observable<any> {
-    return this.apiService.post();
+  register(userData: IUser): Observable<IRequest> {
+    return this.apiService.registerUser(userData);
+  }
+
+  login(userData: IUser): Observable<IRequest> {
+    return this.apiService.loginUser(userData);
   }
 
   setToken(token: string): void {
-    localStorage.setItem('UserToken', token);
+    localStorage.setItem('token', token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('UserToken');
+    return localStorage.getItem('token');
+  }
+
+  loggedIn(): boolean {
+    return !!localStorage.getItem('token');
   }
 
   deleteToken(): void {
-    localStorage.removeItem('UserToken');
+    localStorage.removeItem('token');
   }
 }

@@ -1,31 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '../../interfaces/user.interface';
-import { Observable } from 'rxjs';
+import { IRequest } from '../../interfaces/request.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl: string = 'http://localhost:3000/users';
+  private _loginUrl: string = 'http://localhost:5001/api/v1/auth/login';
+  private _registerUrl: string = 'http://localhost:5001/api/v1/users';
 
   constructor(private httpClient: HttpClient) {}
 
-  post(): Observable<any> {
-    return this.httpClient.post(
-      `${this.apiUrl}`,
-      {
-        id: '11233',
-        username: 'aboba',
-        email: 'd@ff.com',
-        password: 'porno',
-        token: 'iaushguhg',
-      },
-      { withCredentials: true }
+  public registerUser(user: IUser) {
+    return this.httpClient.post<IRequest>(
+      'http://localhost:5001/api/v1/users',
+      user
     );
   }
 
-  get(): Observable<any> {
-    return this.httpClient.get<any>(`${this.apiUrl}`);
+  public loginUser(user: IUser) {
+    return this.httpClient.post<IRequest>(
+      'http://localhost:5001/api/v1/auth/login',
+      user
+    );
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   FormBuilder,
@@ -7,6 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
+import { ValidatorsHandlerComponent } from '../../../validators-handler/validators-handler.component';
+import { InputControlComponent } from '../../input-control/input-control.component';
+import { AuthService } from '../../../services/auth/auth.service';
+import { IUser } from '../../../interfaces/user.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { IRequest } from '../../../interfaces/request.interface';
 
 @Component({
   selector: 'app-login',
@@ -17,40 +23,52 @@ import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
     NgTemplateOutlet,
     NgIf,
     CommonModule,
+    ValidatorsHandlerComponent,
+    InputControlComponent,
   ],
   templateUrl: 'user-login.component.html',
 })
 export class UserLoginComponent {
   registerForm!: FormGroup;
-  submitted = false;
+  user!: IUser;
+  private _destroyRef: DestroyRef = inject(DestroyRef);
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private _authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      userName: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', Validators.required],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(32),
+        ],
+      ],
     });
   }
 
-  get f() {
-    return this.registerForm.controls;
-  }
-
   onSubmit() {
-    this.submitted = true;
-
     if (this.registerForm.invalid) {
       return;
     }
-
-    alert(
-      'SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4)
-    );
+    this.user = {
+      username: this.registerForm.get('username')?.value,
+      password: this.registerForm.get('password')?.value,
+    };
+    this._authService
+      .login(this.user)
+      .pipe(takeUntilDestroyed(this._destroyRef))
+      .subscribe((res: IRequest) => {
+        this._authService.setToken(res.accessToken);
+      });
   }
 
   onReset() {
-    this.submitted = false;
     this.registerForm.reset();
   }
 }
