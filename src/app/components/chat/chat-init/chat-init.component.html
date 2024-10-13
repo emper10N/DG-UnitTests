@@ -1,1 +1,48 @@
-<div class="code-container"><app-code-editor></app-code-editor></div>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+  rel="stylesheet"
+/>
+
+<div class="content">
+  <div class="code-container code-part">
+    <app-code-editor></app-code-editor>
+  </div>
+  <div class="chose-part">
+    <div>
+      <app-chose
+        [data]="['C', 'C#', 'C++', 'Java', 'Python']"
+        [title]="'Язык программирования'"
+        styleClass="programming-lang-style"
+      ></app-chose>
+    </div>
+    <div class="part">
+      <app-chose
+        [data]="[]"
+        [title]="'Framework для тестов'"
+        styleClass="test-framework-style"
+      ></app-chose>
+    </div>
+    <div>
+      <app-chose
+        [data]="[]"
+        [title]="'Библиотека для моков'"
+        styleClass="mock-library-style"
+      ></app-chose>
+      <div class="btn">
+        <button>Submit</button>
+      </div>
+    </div>
+  </div>
+  <div class="submit-content">
+    <div class="text">
+      <label>Класс на который нужно написать тест</label>
+      <textarea
+        id="textarea"
+        (keyup)="autogrow()"
+        placeholder="Add class"
+      ></textarea>
+    </div>
+  </div>
+</div>

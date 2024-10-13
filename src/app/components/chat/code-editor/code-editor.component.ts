@@ -1,8 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
-import * as monaco from 'monaco-editor';
+import {
+  CommonModule,
+  isPlatformBrowser,
+  NgIf,
+  NgTemplateOutlet,
+} from '@angular/common';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 @Component({
   selector: 'app-code-editor',
@@ -13,28 +18,44 @@ import * as monaco from 'monaco-editor';
     NgTemplateOutlet,
     NgIf,
     CommonModule,
+    MonacoEditorModule,
   ],
   templateUrl: 'code-editor.component.html',
   styleUrl: 'style/code-editor.main.scss',
 })
-export class CodeEditorComponent implements OnInit {
-  editor: monaco.editor.IStandaloneCodeEditor | undefined;
-  code: string = '// Write your code here\nconsole.log("Hello, World!");';
+export class CodeEditorComponent {
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
-    this.initEditor();
+    if (isPlatformBrowser(this.platformId)) {
+      this.loadMonacoEditor();
+    }
   }
 
-  initEditor() {
-    this.editor = monaco.editor.create(document.getElementById('code-area')!, {
-      value: this.code,
-      language: 'csharp',
-      automaticLayout: true,
-      rulers: [],
-    });
+  loadMonacoEditor() {
+    const editorElement = document.getElementById('editor');
 
-    this.editor.onDidChangeModelContent(() => {
-      this.code = this.editor!.getValue();
-    });
+    if (editorElement) {
+      import('monaco-editor').then((monaco) => {
+        monaco.editor.defineTheme('myCustomTheme', {
+          base: 'vs',
+          inherit: true,
+          rules: [
+            { token: 'comment.js', foreground: '008800', fontStyle: 'bold' },
+            { token: 'comment.css', foreground: '0000ff' }, // will inherit fontStyle from `comment` above
+          ],
+          colors: {
+            'editor.background': '#5FA0C6',
+          },
+        });
+        monaco.editor.create(editorElement, {
+          value: 'function hello() {\n\tconsole.log("Hello, world!");\n}',
+          language: 'python',
+          theme: 'myCustomTheme',
+        });
+      });
+    } else {
+      console.error('Element with id "editor" not found');
+    }
   }
 }

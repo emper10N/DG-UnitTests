@@ -4,7 +4,11 @@
   href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
   rel="stylesheet"
 />
-<label>Примерный шаблон для отправки запроса на создание Unit-теста</label>
-<div class="editor-container">
-  <div id="editor" style="height: 554px; width: 1078px"></div>
+<label>{{ title }}</label>
+<div class="dropdown" [ngClass]="styleClass">
+  <select id="options">
+    <option *ngFor="let item of data" value="option">
+      {{ item }}
+    </option>
+  </select>
 </div>
