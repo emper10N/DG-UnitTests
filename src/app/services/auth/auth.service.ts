@@ -3,8 +3,9 @@ import {
   Inject,
   Injectable,
   PLATFORM_ID,
+  signal,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from '../api/api.service';
 import { IUser } from '../../interfaces/user.interface';
 import { IRequest } from '../../interfaces/request.interface';
@@ -13,7 +14,9 @@ import { IRequest } from '../../interfaces/request.interface';
   providedIn: 'root',
 })
 export class AuthService {
-  private isLocalStorageAvailable = typeof localStorage !== 'undefined';
+  public isAuth = true;
+
+  public currentUserSig = signal<IRequest | undefined | null>(undefined);
   constructor(private apiService: ApiService) {}
 
   register(userData: IUser): Observable<IRequest> {
@@ -21,6 +24,7 @@ export class AuthService {
   }
 
   login(userData: IUser): Observable<IRequest> {
+    this.isAuth = true;
     return this.apiService.loginUser(userData);
   }
 
@@ -28,15 +32,13 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  logout(): void {
+    localStorage.setItem('token', '');
+    this.currentUserSig.set(undefined);
   }
 
-  loggedIn(): boolean {
-    return !!localStorage.getItem('token');
-  }
-
-  deleteToken(): void {
-    localStorage.removeItem('token');
+  public isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    return !!token;
   }
 }

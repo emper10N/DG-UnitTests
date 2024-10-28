@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -27,11 +27,13 @@ import { IRequest } from '../../../interfaces/request.interface';
     InputControlComponent,
   ],
   templateUrl: 'user-login.component.html',
+  styleUrl: 'styles/login.main.scss',
 })
 export class UserLoginComponent {
   registerForm!: FormGroup;
   user!: IUser;
   private _destroyRef: DestroyRef = inject(DestroyRef);
+  private _router: Router = inject(Router);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,6 +67,8 @@ export class UserLoginComponent {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((res: IRequest) => {
         this._authService.setToken(res.accessToken);
+        this._authService.currentUserSig.set(res);
+        this._router.navigateByUrl('/');
       });
   }
 

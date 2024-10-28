@@ -1,13 +1,21 @@
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
+  rel="stylesheet"
+/>
 <div>
-  <div>
+  <div class="wrapper">
+    <label class="title">Unit-тест</label>
     <form
       class="modal-container__form"
       [formGroup]="registerForm"
       (ngSubmit)="onSubmit()"
     >
-      <div>
+      <div class="content">
+        <label>Логин</label>
         <app-input-control
-          [input]="{ type: 'text', placeholder: 'Username' }"
+          [input]="{ type: 'text', placeholder: '' }"
           formControlName="username"
         />
         <ng-container
@@ -21,9 +29,10 @@
           ></app-validators-handler>
         </ng-container>
       </div>
-      <div>
+      <div class="content">
+        <label>Email</label>
         <app-input-control
-          [input]="{ type: 'email', placeholder: 'Email' }"
+          [input]="{ type: 'email', placeholder: '' }"
           formControlName="email"
         />
         <ng-container
@@ -37,9 +46,10 @@
           ></app-validators-handler>
         </ng-container>
       </div>
-      <div>
+      <div class="content">
+        <label>Пароль</label>
         <app-input-control
-          [input]="{ type: 'password', placeholder: 'Password' }"
+          [input]="{ type: 'password', placeholder: '' }"
           formControlName="password"
         />
         <ng-container
@@ -53,16 +63,33 @@
           ></app-validators-handler>
         </ng-container>
       </div>
+      <div class="content">
+        <label>Повторите пароль</label>
+        <app-input-control
+          [input]="{ type: 'password', placeholder: '' }"
+          formControlName="passwordConfirm"
+        />
+        <ng-container
+          *ngIf="
+            registerForm.get('passwordConfirm') !== registerForm.get('password')
+          "
+        >
+          <app-validators-handler
+            [errors]="registerForm.errors"
+          ></app-validators-handler>
+        </ng-container>
+      </div>
     </form>
     <div class="modal-container__buttons-container">
       <button
-        class="modal-container__submit-btn"
+        class="submit-btn"
         type="submit"
         [disabled]="registerForm.invalid"
         (click)="onSubmit()"
       >
-        register
+        Зарегестрироваться
       </button>
     </div>
+    <div class="return"><a>Уже зарегестрированны?</a></div>
   </div>
 </div>

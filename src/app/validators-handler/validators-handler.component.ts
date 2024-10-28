@@ -36,6 +36,22 @@ export class ValidatorsHandlerComponent {
 
     for (const err in errorsObject) {
       switch (err) {
+        case 'uppercase':
+          this.outErrors.push(
+            'Пароль должен содержать заглавную букву латинского алфавита'
+          );
+          break;
+        case 'lowercase':
+          this.outErrors.push(
+            'Пароль должен содержать строчную букву латинского алфавита'
+          );
+          break;
+        case 'specialCharacter':
+          this.outErrors.push('Пароль должен содержать специальный символ');
+          break;
+        case 'confirmedValidator':
+          this.outErrors.push('Пароли должны совпадать');
+          break;
         case 'required':
           this.outErrors.push('Обязательное поле');
           break;

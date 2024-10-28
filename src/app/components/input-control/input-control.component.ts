@@ -20,6 +20,7 @@ export interface InputForm {
   ],
   templateUrl: 'input-control.component.html',
   imports: [ValidatorsHandlerComponent, NgIf],
+  styleUrl: 'styles/input.main.scss',
 })
 export class InputControlComponent implements ControlValueAccessor {
   public onChange: (value: string) => void = () => {};

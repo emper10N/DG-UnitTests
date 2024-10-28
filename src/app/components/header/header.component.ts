@@ -10,6 +10,7 @@ import {
 import { Router, RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -25,6 +26,7 @@ import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
   styleUrl: 'style/header.main.scss',
 })
 export class HeaderComponent {
+  public authService: AuthService = inject(AuthService);
   constructor(private router: Router) {}
 
   public async openRegister() {

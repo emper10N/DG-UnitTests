@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import {
   FormBuilder,
   FormGroup,
@@ -28,28 +28,42 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
     InputControlComponent,
   ],
   templateUrl: 'user-register.component.html',
+  styleUrl: 'styles/register.main.scss',
 })
 export class UserRegisterComponent implements OnInit {
   registerForm!: FormGroup;
   user!: IUser;
   private _authService: AuthService = inject(AuthService);
   private _destroyRef: DestroyRef = inject(DestroyRef);
+  private _router: Router = inject(Router);
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.registerForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      email: ['', [Validators.required, CustomValidators.emailValidator]],
-      password: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(6),
-          Validators.maxLength(32),
+    this.registerForm = this.formBuilder.group(
+      {
+        username: ['', Validators.required],
+        email: ['', [Validators.required, CustomValidators.emailValidator]],
+        password: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(32),
+            CustomValidators.uppercaseValidator,
+            CustomValidators.specialCharacterValidator,
+            CustomValidators.lowercaseValidator,
+          ],
         ],
-      ],
-    });
+        passwordConfirm: ['', Validators.required],
+      },
+      {
+        validators: CustomValidators.matchValidator(
+          'password',
+          'passwordConfirm'
+        ),
+      }
+    );
   }
 
   onSubmit() {
@@ -65,6 +79,8 @@ export class UserRegisterComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((res: IRequest) => {
         this._authService.setToken(res.accessToken);
+        this._authService.currentUserSig.set(res);
+        this._router.navigateByUrl('/');
       });
   }
 
