@@ -7,19 +7,26 @@
 
 <div class="content">
   <div class="code-container code-part">
-    <app-code-editor></app-code-editor>
+    <app-code-editor
+      [language]="
+        this.selectedLanguage === undefined ? 'c' : this.selectedLanguage
+      "
+    ></app-code-editor>
   </div>
   <div class="chose-part">
     <div>
       <app-chose
         [data]="['C', 'C#', 'C++', 'Java', 'Python']"
+        [name]="'язык'"
         [title]="'Язык программирования'"
+        (selectedChange)="onLanguageChange($event)"
         styleClass="programming-lang-style"
       ></app-chose>
     </div>
     <div class="part">
       <app-chose
-        [data]="[]"
+        [data]="getFrameworks()"
+        [name]="'фреймворк'"
         [title]="'Framework для тестов'"
         styleClass="test-framework-style"
       ></app-chose>
@@ -27,6 +34,7 @@
     <div>
       <app-chose
         [data]="[]"
+        [name]="'мок'"
         [title]="'Библиотека для моков'"
         styleClass="mock-library-style"
       ></app-chose>

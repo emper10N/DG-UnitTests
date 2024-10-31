@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CodeEditorComponent } from './components/chat/code-editor/code-editor.component';
 import { IRequest } from './interfaces/request.interface';
+import { ProgrammingLanguageService } from './services/programming-language/programming-language.service';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,7 @@ import { IRequest } from './interfaces/request.interface';
     FormsModule,
     CodeEditorComponent,
   ],
-  providers: [AuthService],
+  providers: [AuthService, ProgrammingLanguageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

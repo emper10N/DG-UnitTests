@@ -1,11 +1,5 @@
-import {
-  afterNextRender,
-  Inject,
-  Injectable,
-  PLATFORM_ID,
-  signal,
-} from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, signal } from '@angular/core';
+import { Observable } from 'rxjs';
 import { ApiService } from '../api/api.service';
 import { IUser } from '../../interfaces/user.interface';
 import { IRequest } from '../../interfaces/request.interface';
@@ -38,7 +32,6 @@ export class AuthService {
   }
 
   public isAuthenticated(): boolean {
-    const token = localStorage.getItem('token');
-    return !!token;
+    return this.currentUserSig !== undefined && this.currentUserSig !== null;
   }
 }

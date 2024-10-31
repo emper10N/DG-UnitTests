@@ -6,8 +6,8 @@
 />
 <label>{{ title }}</label>
 <div class="dropdown" [ngClass]="styleClass">
-  <select id="options">
-    <option *ngFor="let item of data" value="option">
+  <select (change)="onSelectChange($event)">
+    <option *ngFor="let item of data" [value]="item">
       {{ item }}
     </option>
   </select>

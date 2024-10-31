@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "types": ["node", "@types/monaco-editor"],
+    "types": ["node"],
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,

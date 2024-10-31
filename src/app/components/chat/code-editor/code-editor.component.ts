@@ -1,4 +1,15 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  Input,
+  OnChanges,
+  OnInit,
+  PLATFORM_ID,
+  SimpleChanges,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
@@ -7,7 +18,6 @@ import {
   NgIf,
   NgTemplateOutlet,
 } from '@angular/common';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 @Component({
   selector: 'app-code-editor',
@@ -18,18 +28,37 @@ import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
     NgTemplateOutlet,
     NgIf,
     CommonModule,
-    MonacoEditorModule,
   ],
   templateUrl: 'code-editor.component.html',
-  styleUrl: 'style/code-editor.main.scss',
+  styleUrls: ['style/code-editor.main.scss'],
 })
-export class CodeEditorComponent {
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+export class CodeEditorComponent implements OnChanges {
+  @Input()
+  public language: string | undefined;
 
-  ngOnInit() {
+  @Output()
+  public editorInitialized = new EventEmitter<void>();
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    if (this.language === undefined) this.language = 'c';
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.removeAndCreateEditor();
     if (isPlatformBrowser(this.platformId)) {
       this.loadMonacoEditor();
+      this.editorInitialized.emit();
     }
+  }
+
+  private removeAndCreateEditor(): void {
+    document.getElementById('editor')?.remove();
+    const editorContainer = document.getElementById('editor-container');
+    const newEditor = document.createElement('div');
+    newEditor.id = 'editor';
+    newEditor.style.height = '554px';
+    newEditor.style.width = '1078px';
+    editorContainer?.appendChild(newEditor);
   }
 
   loadMonacoEditor() {
@@ -42,20 +71,25 @@ export class CodeEditorComponent {
           inherit: true,
           rules: [
             { token: 'comment.js', foreground: '008800', fontStyle: 'bold' },
-            { token: 'comment.css', foreground: '0000ff' }, // will inherit fontStyle from `comment` above
+            { token: 'comment.css', foreground: '0000ff' },
           ],
           colors: {
             'editor.background': '#5FA0C6',
           },
         });
         monaco.editor.create(editorElement, {
-          value: 'function hello() {\n\tconsole.log("Hello, world!");\n}',
-          language: 'python',
+          value: '',
+          language: this.language?.toLowerCase(),
           theme: 'myCustomTheme',
         });
       });
     } else {
       console.error('Element with id "editor" not found');
     }
+  }
+
+  getData() {
+    const editorElement = document.getElementById('editor');
+    console.log(editorElement?.textContent);
   }
 }
