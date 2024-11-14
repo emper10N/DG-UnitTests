@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ProgrammingLanguageService } from '../../../services/programming-language/programming-language.service';
 
@@ -13,6 +13,7 @@ import { ProgrammingLanguageService } from '../../../services/programming-langua
     NgTemplateOutlet,
     NgIf,
     CommonModule,
+    FormsModule,
   ],
   providers: [ProgrammingLanguageService],
   templateUrl: 'chose.component.html',

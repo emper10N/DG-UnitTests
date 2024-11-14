@@ -73,14 +73,15 @@ export class UserRegisterComponent implements OnInit {
     this.user = {
       username: this.registerForm.get('username')?.value,
       password: this.registerForm.get('password')?.value,
+      email: this.registerForm.get('email')?.value,
     };
     this._authService
       .register(this.user)
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((res: IRequest) => {
         this._authService.setToken(res.accessToken);
-        this._authService.currentUserSig.set(res);
-        this._router.navigateByUrl('/');
+        this._authService.currentRequestSig.set(res);
+        this._router.navigateByUrl('/new-chat');
       });
   }
 

@@ -8,8 +8,12 @@ import {
   withFetch,
   withInterceptors,
 } from '@angular/common/http';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
-import { authInterceptor } from './services/auth-interceptor/auth-inteceptor.service';
+import {
+  MonacoEditorModule,
+  NgxMonacoEditorConfig,
+} from 'ngx-monaco-editor-v2';
+import { authInterceptor } from './interceptors/auth.interceptor';
+import { FormsModule } from '@angular/forms';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,5 +22,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     provideHttpClient(withInterceptors([authInterceptor])),
     importProvidersFrom(MonacoEditorModule.forRoot()),
+    MonacoEditorModule,
+    FormsModule,
   ],
 };

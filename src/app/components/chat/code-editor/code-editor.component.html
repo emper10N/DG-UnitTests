@@ -4,7 +4,11 @@
   href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap"
   rel="stylesheet"
 />
-<label>Примерный шаблон для отправки запроса на создание Unit-теста</label>
-<div class="editor-container" id="editor-container" (keyup)="getData()">
-  <div id="editor" style="height: 554px; width: 1078px"></div>
+<div class="editor-container">
+  <ngx-monaco-editor
+    [options]="editorOptions"
+    style="width: 100%; height: 100%"
+    [(ngModel)]="code"
+  ></ngx-monaco-editor>
 </div>
+<button (click)="getValue()">submit</button>

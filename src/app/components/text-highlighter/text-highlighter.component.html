@@ -1,0 +1,19 @@
+<div class="editor" style="padding-top: 10px; padding-left: 10px">
+  <div
+    (mouseup)="getSelectedText($event)"
+    id="editor"
+    style="width: 95%; height: 100%"
+  ></div>
+</div>
+{{ getCode() }}
+<button
+  *ngIf="showButton"
+  (click)="getInfo()"
+  [ngStyle]="{
+    position: 'absolute',
+    top: buttonPosition.top,
+    left: buttonPosition.left
+  }"
+>
+  Цитировать
+</button>

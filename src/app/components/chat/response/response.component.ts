@@ -5,9 +5,10 @@ import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
 import { CodeEditorComponent } from '../code-editor/code-editor.component';
 import { ChoseComponent } from '../chose/chose.component';
 import { ProgrammingLanguageService } from '../../../services/programming-language/programming-language.service';
+import { TextHighlighterComponent } from '../../text-highlighter/text-highlighter.component';
 
 @Component({
-  selector: 'app-chat-init',
+  selector: 'app-response-init',
   standalone: true,
   imports: [
     RouterOutlet,
@@ -18,11 +19,12 @@ import { ProgrammingLanguageService } from '../../../services/programming-langua
     CodeEditorComponent,
     ChoseComponent,
     CommonModule,
+    TextHighlighterComponent,
   ],
-  templateUrl: 'chat-init.component.html',
-  styleUrl: 'style/chat-init.main.scss',
+  templateUrl: 'response.component.html',
+  styleUrl: 'style/response.main.scss',
 })
-export class ChatInitComponent {
+export class ResponseComponent {
   public selectedLanguage: string | undefined;
   public choseLanguage: ProgrammingLanguageService = inject(
     ProgrammingLanguageService
@@ -32,10 +34,6 @@ export class ChatInitComponent {
     this.textArea = document.getElementById('textarea');
     this.textArea.style.height = '54px';
     this.textArea.style.height = this.textArea.scrollHeight + 'px';
-  }
-
-  public onLanguageChange(language: string): void {
-    this.selectedLanguage = language;
   }
 
   public getFrameworks(): string[] {

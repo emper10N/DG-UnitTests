@@ -24,5 +24,12 @@ export const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'response',
+    loadComponent: () =>
+      import('./components/chat/response/response.component').then(
+        (m) => m.ResponseComponent
+      ),
+  },
   { path: '**', redirectTo: 'home' },
 ];
