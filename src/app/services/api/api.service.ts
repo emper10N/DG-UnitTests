@@ -13,16 +13,10 @@ export class ApiService {
   constructor(private httpClient: HttpClient) {}
 
   public registerUser(user: IUser) {
-    return this.httpClient.post<IRequest>(
-      'http://localhost:5001/api/v1/users',
-      user
-    );
+    return this.httpClient.post<IRequest>(this._registerUrl, user);
   }
 
   public loginUser(user: IUser) {
-    return this.httpClient.post<IRequest>(
-      'http://localhost:5001/api/v1/auth/login',
-      user
-    );
+    return this.httpClient.post<IRequest>(this._loginUrl, user);
   }
 }

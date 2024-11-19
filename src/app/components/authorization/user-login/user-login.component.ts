@@ -68,7 +68,6 @@ export class UserLoginComponent {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((res: IRequest) => {
         this._authService.setToken(res.accessToken);
-        this._authService.currentRequestSig.set(res);
         this._router.navigateByUrl('/new-chat');
       });
   }

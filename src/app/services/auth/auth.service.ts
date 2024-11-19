@@ -1,26 +1,28 @@
 import { Injectable, signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from '../api/api.service';
 import { IUser } from '../../interfaces/user.interface';
 import { IRequest } from '../../interfaces/request.interface';
-import { IRegUser } from '../../interfaces/regUser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  public isAuth = true;
+  private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
 
-  public currentRequestSig = signal<IRequest | undefined | null>(undefined);
-  public currentUserSig = signal<IRegUser | undefined | null>(undefined);
-  constructor(private apiService: ApiService) {}
+  public isAuth = this._isLoggedIn$.asObservable();
+
+  constructor(private apiService: ApiService) {
+    this._isLoggedIn$.next(!!localStorage.getItem('token'));
+  }
 
   register(userData: IUser): Observable<IRequest> {
+    this._isLoggedIn$.next(true);
     return this.apiService.registerUser(userData);
   }
 
   login(userData: IUser): Observable<IRequest> {
-    this.isAuth = true;
+    this._isLoggedIn$.next(true);
     return this.apiService.loginUser(userData);
   }
 
@@ -30,10 +32,6 @@ export class AuthService {
 
   logout(): void {
     localStorage.setItem('token', '');
-    this.currentRequestSig.set(undefined);
-  }
-
-  public isAuthenticated(): boolean {
-    return this.currentUserSig !== undefined;
+    this._isLoggedIn$.next(false);
   }
 }

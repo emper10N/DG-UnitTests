@@ -22,23 +22,6 @@ export class HeaderComponent {
   public authService: AuthService = inject(AuthService);
   public http: HttpClient = inject(HttpClient);
   constructor(private router: Router) {}
-  // ngOnInit(): void {
-  //   this.http
-  //     .get<{ user: IRegUser }>(
-  //       `http://localhost:5001/api/v1/users/${
-  //         this.authService.currentUserSig()?.username
-  //       }`
-  //     )
-  //     .subscribe({
-  //       next: (response) => {
-  //         console.log(response);
-  //         this.authService.currentUserSig?.set(response.user);
-  //       },
-  //       error: () => {
-  //         this.authService.currentUserSig?.set(null);
-  //       },
-  //     });
-  // }
 
   public async openRegister() {
     await this.router.navigate(['/registration']);
