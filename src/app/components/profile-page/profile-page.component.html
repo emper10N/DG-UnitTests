@@ -1,0 +1,21 @@
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid aqua;
+  }
+</style>
+<button (click)="getUserInfo()">Инфа про юзера</button>
+
+<table style="width: 100%; color: aqua; border: 2px">
+  <tr>
+    <th>Время</th>
+    <th>Модель</th>
+    <th>Перейти к запросу</th>
+  </tr>
+  <tr *ngFor="let chat of chats">
+    <td>{{ chat.createdAt }}</td>
+    <td>{{ chat.name }}</td>
+    <td><button>Открыть</button></td>
+  </tr>
+</table>

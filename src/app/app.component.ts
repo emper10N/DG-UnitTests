@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { CodeEditorComponent } from './components/chat/code-editor/code-editor.component';
 import { ProgrammingLanguageService } from './services/programming-language/programming-language.service';
 import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
+import { UserManagementService } from './services/user-management-service/user-management.service';
+import { ApiService } from './services/api/api.service';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +32,12 @@ import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
     MonacoEditorModule,
     CodeEditorComponent,
   ],
-  providers: [AuthService, ProgrammingLanguageService],
+  providers: [
+    AuthService,
+    ProgrammingLanguageService,
+    UserManagementService,
+    ApiService,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

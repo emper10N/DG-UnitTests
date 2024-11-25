@@ -31,5 +31,12 @@ export const routes: Routes = [
         (m) => m.ResponseComponent
       ),
   },
+  {
+    path: 'profile',
+    loadComponent: () =>
+      import('./components/profile-page/profile-page.component').then(
+        (m) => m.ProfilePageComponent
+      ),
+  },
   { path: '**', redirectTo: 'home' },
 ];

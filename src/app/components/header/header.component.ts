@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
 import { AuthService } from '../../services/auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { UserManagementService } from '../../services/user-management-service/user-management.service';
 
 @Component({
   selector: 'app-header',
@@ -21,6 +22,7 @@ import { HttpClient } from '@angular/common/http';
 export class HeaderComponent {
   public authService: AuthService = inject(AuthService);
   public http: HttpClient = inject(HttpClient);
+  public userData: UserManagementService = inject(UserManagementService);
   constructor(private router: Router) {}
 
   public async openRegister() {
@@ -33,5 +35,9 @@ export class HeaderComponent {
 
   public async openMain(): Promise<void> {
     await this.router.navigate(['/home']);
+  }
+
+  public async openProfile(): Promise<void> {
+    await this.router.navigate(['/profile']);
   }
 }

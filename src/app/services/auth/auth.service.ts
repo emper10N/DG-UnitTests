@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from '../api/api.service';
 import { IUser } from '../../interfaces/user.interface';
-import { IRequest } from '../../interfaces/request.interface';
+import { IRequest, IUserData } from '../../interfaces/request.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +30,13 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
+  setData(data: IUserData): void {
+    localStorage.setItem('data', JSON.stringify(data));
+  }
+
   logout(): void {
     localStorage.setItem('token', '');
+    localStorage.setItem('data', '');
     this._isLoggedIn$.next(false);
   }
 }

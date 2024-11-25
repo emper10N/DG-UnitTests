@@ -12,7 +12,7 @@ import { ValidatorsHandlerComponent } from '../../../validators-handler/validato
 import { InputControlComponent } from '../../input-control/input-control.component';
 import { AuthService } from '../../../services/auth/auth.service';
 import { IUser } from '../../../interfaces/user.interface';
-import { IRequest } from '../../../interfaces/request.interface';
+import { IRequest, IUserData } from '../../../interfaces/request.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -80,6 +80,12 @@ export class UserRegisterComponent implements OnInit {
       .pipe(takeUntilDestroyed(this._destroyRef))
       .subscribe((res: IRequest) => {
         this._authService.setToken(res.accessToken);
+        const data: IUserData = {
+          username: this.registerForm.get('username')?.value,
+          password: this.registerForm.get('password')?.value,
+          userId: res.userId,
+        };
+        this._authService.setData(data);
         this._router.navigateByUrl('/new-chat');
       });
   }

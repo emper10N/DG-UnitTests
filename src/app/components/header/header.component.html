@@ -5,6 +5,9 @@
   </div>
   <div class="header-links">
     <div *ngIf="authService.isAuth | async; else unAuthorized">
+      <a class="header-links-list" (click)="openProfile()">{{
+        userData.getUserData()?.username
+      }}</a>
       <a class="header-links-list" (click)="authService.logout()">Log Ou3</a>
     </div>
     <ng-template #unAuthorized>

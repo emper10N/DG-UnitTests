@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IUser } from '../../interfaces/user.interface';
 import { IRequest } from '../../interfaces/request.interface';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +13,11 @@ export class ApiService {
 
   constructor(private httpClient: HttpClient) {}
 
-  public registerUser(user: IUser) {
+  public registerUser(user: IUser): Observable<IRequest> {
     return this.httpClient.post<IRequest>(this._registerUrl, user);
   }
 
-  public loginUser(user: IUser) {
+  public loginUser(user: IUser): Observable<IRequest> {
     return this.httpClient.post<IRequest>(this._loginUrl, user);
   }
 }
