@@ -10,7 +10,7 @@ export class UserManagementService {
   private _auth: AuthService = inject(AuthService);
 
   getUserData(): IUserData | null {
-    if (this._auth.isAuth) {
+    if (this._auth.isAuth || localStorage.getItem('data') === '') {
       const str = localStorage.getItem('data')!;
       return JSON.parse(str);
     }

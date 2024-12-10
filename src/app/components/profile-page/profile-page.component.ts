@@ -1,37 +1,122 @@
-import { Component, inject, NgModule } from '@angular/core';
-import { FormsModule, NgModel, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, NgModule, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  NgModel,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ApiService } from '../../services/api/api.service';
 import { UserManagementService } from '../../services/user-management-service/user-management.service';
 import { Observable, Subscription } from 'rxjs';
-import { IChat, IUserInfo } from '../../interfaces/request.interface';
+import {
+  IChat,
+  IUserData,
+  IUserInfo,
+} from '../../interfaces/request.interface';
 import { HttpClient } from '@angular/common/http';
+import { CustomValidators } from '../../services/custom-validator/custom-validator.service';
+import { InputControlComponent } from '../input-control/input-control.component';
+import { ValidatorsHandlerComponent } from '../../validators-handler/validators-handler.component';
+import { IUser } from '../../interfaces/user.interface';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NgTemplateOutlet,
-    NgIf,
     CommonModule,
     FormsModule,
+    ValidatorsHandlerComponent,
   ],
   templateUrl: 'profile-page.component.html',
   styleUrl: 'style/profile-page.main.scss',
 })
-export class ProfilePageComponent {
+export class ProfilePageComponent implements OnInit {
   public userData: UserManagementService = inject(UserManagementService);
+  private _auth: AuthService = inject(AuthService);
   private _userUrl: string = `http://localhost:5001/api/v1/users/${
     this.userData.getUserData()?.userId
   }`;
-
   private _userChatsUrl: string = `http://localhost:5001/api/v1/chats`;
-
   public chats!: any[];
+  public changeUserInfoForm!: FormGroup;
+  private user!: IUser;
+  public changeUser: boolean = false;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private formBuilder: FormBuilder
+  ) {
+    this.changeUserInfoForm = this.formBuilder.group({
+      username: ['username', Validators.required],
+      email: [
+        'email@gmail.com',
+        [Validators.required, CustomValidators.emailValidator],
+      ],
+      password: [
+        'password',
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(32),
+          CustomValidators.uppercaseValidator,
+          CustomValidators.specialCharacterValidator,
+          CustomValidators.lowercaseValidator,
+        ],
+      ],
+    });
     this.getChatsInfo();
+  }
+
+  public changeUserInfo() {
+    this.changeUserInfoForm.controls['username'].enable();
+    this.changeUserInfoForm.controls['email'].enable();
+    this.changeUserInfoForm.controls['password'].enable();
+    this.changeUser = true;
+  }
+
+  public cancel() {
+    this.changeUser = false;
+    this.changeUserInfoForm.controls['username'].disable();
+    this.changeUserInfoForm.controls['email'].disable();
+    this.changeUserInfoForm.controls['password'].disable();
+  }
+
+  onSubmit() {
+    this.user = {
+      username: this.changeUserInfoForm.get('username')?.value,
+      password: this.changeUserInfoForm.get('password')?.value,
+      email: this.changeUserInfoForm.get('email')?.value,
+    };
+    this.updateUserInfo(this.user);
+    this.changeUser = false;
+    this.changeUserInfoForm.controls['username'].disable();
+    this.changeUserInfoForm.controls['email'].disable();
+    this.changeUserInfoForm.controls['password'].disable();
+  }
+
+  ngOnInit() {
+    this.loadUserData();
+  }
+
+  async loadUserData(): Promise<void> {
+    try {
+      const str: IUserData = JSON.parse(localStorage.getItem('data')!);
+      this.changeUserInfoForm.patchValue({
+        username: str.username,
+        email: '',
+        password: str.password,
+      });
+      this.changeUserInfoForm.controls['username'].disable();
+      this.changeUserInfoForm.controls['email'].disable();
+      this.changeUserInfoForm.controls['password'].disable();
+    } catch (error) {
+      console.error('Failed to load user data:', error);
+    }
   }
 
   public getUserInfo(): Subscription {
@@ -39,10 +124,24 @@ export class ProfilePageComponent {
       console.log(res);
     });
   }
+
   public getChatsInfo(): Subscription {
     return this.httpClient.get<any>(this._userChatsUrl).subscribe((res) => {
       this.chats = res.chats;
-      console.log(res);
     });
+  }
+
+  public updateUserInfo(user: IUser): Subscription {
+    debugger;
+    return this.httpClient
+      .put<IUserData>(this._userUrl, user)
+      .subscribe((res) => {
+        const data: IUserData = {
+          username: res.username,
+          userId: res.userId,
+          password: user.password,
+        };
+        this._auth.setData(data);
+      });
   }
 }

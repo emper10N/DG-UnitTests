@@ -5,7 +5,7 @@
   rel="stylesheet"
 />
 
-<div class="content">
+<div class="content" *ngIf="authService.isAuth | async">
   <div class="code-container code-part">
     <app-code-editor
       [language]="
@@ -38,19 +38,10 @@
         [title]="'Библиотека для моков'"
         styleClass="mock-library-style"
       ></app-chose>
+      <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
       <div class="btn">
-        <button>Submit</button>
+        <button (click)="sendMessage()">Submit</button>
       </div>
-    </div>
-  </div>
-  <div class="submit-content">
-    <div class="text">
-      <label>Класс на который нужно написать тест</label>
-      <textarea
-        id="textarea"
-        (keyup)="autogrow()"
-        placeholder="Add class"
-      ></textarea>
     </div>
   </div>
 </div>

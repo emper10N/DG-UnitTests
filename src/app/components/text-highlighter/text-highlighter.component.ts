@@ -4,34 +4,36 @@ import { FormsModule } from '@angular/forms';
 import { HighlightAndShowButtonDirective } from '../../directives/highlight-and-show-button.directive';
 import * as monaco from 'monaco-editor';
 import { error } from 'console';
+import { TransportResponseService } from '../../services/transport-response/transport-response.service';
 
 @Component({
   selector: 'app-text-highlighter',
   standalone: true,
   templateUrl: './text-highlighter.component.html',
   styleUrls: ['./text-highlighter.component.scss'],
-  imports: [CommonModule, FormsModule, HighlightAndShowButtonDirective],
+  imports: [CommonModule, FormsModule],
 })
 export class TextHighlighterComponent implements OnInit {
   editor: monaco.editor.IStandaloneCodeEditor | undefined;
+  public message!: string;
+
+  constructor(private transportResponse: TransportResponseService) {}
   ngOnInit() {
+    this.transportResponse.currentRes.subscribe((message) => {
+      this.message = message;
+    });
     this.initEditor();
   }
 
   initEditor() {
-    monaco.editor.defineTheme('myCustomTheme', {
-      base: 'vs',
-      inherit: true,
-      rules: [],
-      colors: {
-        'editor.background': '#697277',
-      },
-    });
-
+    this.message = this.message
+      .replace('```', '')
+      .replace('python', '')
+      .replace('```', '');
     this.editor = monaco.editor.create(document.getElementById('editor')!, {
-      value: this.code,
+      value: this.message,
       language: 'python',
-      theme: 'myCustomTheme',
+      theme: 'vs-dark',
       automaticLayout: true,
     });
 

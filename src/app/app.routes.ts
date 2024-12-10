@@ -17,7 +17,7 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'new-chat',
+    path: '',
     loadComponent: () =>
       import('./components/chat/chat-init/chat-init.component').then(
         (m) => m.ChatInitComponent
@@ -38,5 +38,5 @@ export const routes: Routes = [
         (m) => m.ProfilePageComponent
       ),
   },
-  { path: '**', redirectTo: 'home' },
+  { path: '**', redirectTo: '' },
 ];

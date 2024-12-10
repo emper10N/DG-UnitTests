@@ -8,7 +8,7 @@
       <a class="header-links-list" (click)="openProfile()">{{
         userData.getUserData()?.username
       }}</a>
-      <a class="header-links-list" (click)="authService.logout()">Log Ou3</a>
+      <a class="header-links-list" (click)="authService.logout()">Log Out</a>
     </div>
     <ng-template #unAuthorized>
       <a class="header-links-list" (click)="openLogin()">Log In</a>

@@ -1,5 +1,9 @@
-<div class="editor" style="padding-top: 10px; padding-left: 10px">
+<div
+  class="editor"
+  style="padding-top: 10px; padding-left: 10px; padding-bottom: 10px"
+>
   <div
+    [textContent]=""
     (mouseup)="getSelectedText($event)"
     id="editor"
     style="width: 95%; height: 100%"

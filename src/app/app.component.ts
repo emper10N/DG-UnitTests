@@ -17,26 +17,25 @@ import { ProgrammingLanguageService } from './services/programming-language/prog
 import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import { UserManagementService } from './services/user-management-service/user-management.service';
 import { ApiService } from './services/api/api.service';
+import { TransportCodeService } from './services/transport-code/transport-code.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
-    UserAuthorizationComponent,
     HeaderComponent,
-    ChoseComponent,
     CommonModule,
     FormsModule,
-    CodeEditorComponent,
     MonacoEditorModule,
-    CodeEditorComponent,
   ],
   providers: [
     AuthService,
     ProgrammingLanguageService,
     UserManagementService,
     ApiService,
+    TransportCodeService,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

@@ -17,3 +17,17 @@ export interface IUserInfo {
 export interface IChat {
   name: string;
 }
+
+export interface IMessage {
+  model: string;
+  chatId: string;
+  message: string;
+}
+
+export interface IChatId {
+  chatId: string;
+}
+
+export interface IContent {
+  content: string;
+}

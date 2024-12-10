@@ -19,9 +19,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'app-register',
   standalone: true,
   imports: [
-    RouterOutlet,
     ReactiveFormsModule,
-    NgTemplateOutlet,
     NgIf,
     CommonModule,
     ValidatorsHandlerComponent,

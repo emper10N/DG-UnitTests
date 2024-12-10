@@ -19,7 +19,7 @@ textarea {
   border-radius: 10px;
   outline: none;
   resize: none;
-  height: 54px;
+  height: 250px;
   box-sizing: border-box;
   border: none;
   font-family: "EB Garamond", serif;
@@ -28,10 +28,6 @@ textarea {
   color: #ffffff;
   align-items: center;
   padding: 10px;
-}
-
-textarea::-webkit-scrollbar {
-  display: none;
 }
 
 textarea::placeholder {

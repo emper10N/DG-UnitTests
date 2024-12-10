@@ -10,31 +10,25 @@ import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
+import { TransportCodeService } from '../../../services/transport-code/transport-code.service';
 
 @Component({
   selector: 'app-code-editor',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    NgTemplateOutlet,
-    NgIf,
-    FormsModule,
-    MonacoEditorModule,
-  ],
+  imports: [FormsModule, MonacoEditorModule],
   templateUrl: 'code-editor.component.html',
   styleUrls: ['style/code-editor.main.scss'],
 })
 export class CodeEditorComponent implements OnChanges {
   @Input()
   public language!: string;
-
   public code: string = '';
 
   @Output()
   public editorInitialized = new EventEmitter<void>();
   editorOptions: any;
 
-  constructor() {
+  constructor(private transportCode: TransportCodeService) {
     if (this.language === undefined) this.language = 'c';
     this.editorOptions = {
       theme: 'vs-dark',
@@ -49,7 +43,7 @@ export class CodeEditorComponent implements OnChanges {
     };
   }
 
-  getValue(): void {
-    console.log(this.code);
+  sendCode() {
+    this.transportCode.changeCode(this.code);
   }
 }

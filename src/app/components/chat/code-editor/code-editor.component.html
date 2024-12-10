@@ -6,9 +6,9 @@
 />
 <div class="editor-container">
   <ngx-monaco-editor
+    (ngModelChange)="sendCode()"
     [options]="editorOptions"
     style="width: 100%; height: 100%"
     [(ngModel)]="code"
   ></ngx-monaco-editor>
 </div>
-<button (click)="getValue()">submit</button>
