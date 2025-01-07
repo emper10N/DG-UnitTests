@@ -11,7 +11,6 @@ import { UserManagementService } from '../../services/user-management-service/us
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NgTemplateOutlet,
     NgIf,
     CommonModule,
     FormsModule,

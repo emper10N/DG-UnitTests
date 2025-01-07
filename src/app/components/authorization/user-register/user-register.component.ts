@@ -91,4 +91,8 @@ export class UserRegisterComponent implements OnInit {
   onReset() {
     this.registerForm.reset();
   }
+
+  public async openLogin(): Promise<void> {
+    await this._router.navigate(['/login']);
+  }
 }

@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HighlightAndShowButtonDirective } from '../../directives/highlight-and-show-button.directive';
 import * as monaco from 'monaco-editor';
-import { error } from 'console';
 import { TransportResponseService } from '../../services/transport-response/transport-response.service';
 
 @Component({
@@ -16,6 +14,8 @@ import { TransportResponseService } from '../../services/transport-response/tran
 export class TextHighlighterComponent implements OnInit {
   editor: monaco.editor.IStandaloneCodeEditor | undefined;
   public message!: string;
+  @Output()
+  public editorInitialized = new EventEmitter<void>();
 
   constructor(private transportResponse: TransportResponseService) {}
   ngOnInit() {
@@ -26,6 +26,14 @@ export class TextHighlighterComponent implements OnInit {
   }
 
   initEditor() {
+    monaco.editor.defineTheme('my-dark', {
+      base: 'vs', 
+      inherit: true,
+      rules: [],
+      colors: {
+        "editor.background": '#CDC6C6'
+      }
+    });
     this.message = this.message
       .replace('```', '')
       .replace('python', '')
@@ -33,7 +41,7 @@ export class TextHighlighterComponent implements OnInit {
     this.editor = monaco.editor.create(document.getElementById('editor')!, {
       value: this.message,
       language: 'python',
-      theme: 'vs-dark',
+      theme: 'my-dark',
       automaticLayout: true,
     });
 

@@ -1,49 +1,85 @@
 import {
   Component,
   Input,
-  EventEmitter,
-  Output,
   OnChanges,
   SimpleChanges,
+  OnInit,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
+import * as monaco from 'monaco-editor';
 import { TransportCodeService } from '../../../services/transport-code/transport-code.service';
 
 @Component({
   selector: 'app-code-editor',
   standalone: true,
-  imports: [FormsModule, MonacoEditorModule],
+  imports: [FormsModule],
   templateUrl: 'code-editor.component.html',
   styleUrls: ['style/code-editor.main.scss'],
 })
-export class CodeEditorComponent implements OnChanges {
+export class CodeEditorComponent implements OnChanges, OnInit {
   @Input()
   public language!: string;
   public code: string = '';
-
-  @Output()
-  public editorInitialized = new EventEmitter<void>();
-  editorOptions: any;
+  editor: monaco.editor.IStandaloneCodeEditor | undefined;
 
   constructor(private transportCode: TransportCodeService) {
-    if (this.language === undefined) this.language = 'c';
-    this.editorOptions = {
-      theme: 'vs-dark',
-      language: this.language.toLowerCase(),
-    };
+    monaco.editor.defineTheme('my-dark', {
+      base: 'vs', 
+      inherit: true,
+      rules: [],
+      colors: {
+        "editor.background": '#CDC6C6'
+      }
+    });
+    if (this.language === undefined)
+        this.language = 'c';
   }
+
+  ngOnInit() {
+    this.initEditor();
+  }
+  
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.editorOptions = {
-      theme: 'vs-dark',
-      language: this.language.toLowerCase(),
-    };
+    if (changes['language'] && !changes['language'].isFirstChange()) {
+      this.changeLanguage(this.language);
+    }
   }
 
+  changeLanguage(newLanguage: string) {
+    if (this.editor) {
+      const model = this.editor.getModel();
+         if (model) {
+          console.log(1);
+           monaco.editor.setModelLanguage(model, newLanguage);
+           monaco.editor.setTheme('my-dark');
+         }
+    }
+  }
+
+
+  initEditor() {
+    monaco.editor.defineTheme('my-dark', {
+      base: 'vs', 
+      inherit: true,
+      rules: [],
+      colors: {
+        "editor.background": '#CDC6C6'
+      }
+    });
+    this.editor = monaco.editor.create(document.getElementById('editor')!, {
+      language: this.language,
+      theme: 'my-dark',
+      automaticLayout: true,
+    });
+    this.editor.onDidChangeModelContent(() => {
+      this.sendCode();
+    });
+  }
+
+
+
   sendCode() {
-    this.transportCode.changeCode(this.code);
+    this.transportCode.changeCode(this.editor?.getValue()!);
   }
 }

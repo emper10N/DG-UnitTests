@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { ValidationErrors } from '@angular/forms';
 import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-validators-handler',
   standalone: true,
-  imports: [RouterOutlet, NgForOf],
+  imports: [ NgForOf],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'validators-handler.component.html',
+  styleUrl: 'style.scss'
 })
 export class ValidatorsHandlerComponent {
   public outErrors: string[] = [];
