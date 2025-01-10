@@ -10,7 +10,7 @@ import {
 import { CommonModule, NgIf, NgTemplateOutlet } from '@angular/common';
 import { ApiService } from '../../services/api/api.service';
 import { UserManagementService } from '../../services/user-management-service/user-management.service';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import {
   IChat,
   IUserData,
@@ -22,6 +22,8 @@ import { InputControlComponent } from '../input-control/input-control.component'
 import { ValidatorsHandlerComponent } from '../../validators-handler/validators-handler.component';
 import { IUser } from '../../interfaces/user.interface';
 import { AuthService } from '../../services/auth/auth.service';
+import { Router } from '@angular/router';
+import { TransportResponseService } from '../../services/transport-response/transport-response.service';
 
 @Component({
   selector: 'app-profile',
@@ -42,6 +44,7 @@ export class ProfilePageComponent implements OnInit {
     this.userData.getUserData()?.userId
   }`;
   private _userChatsUrl: string = `http://localhost:5001/api/v1/chats`;
+  private _getAnsver: string = `http://localhost:5001/api/v1/chats/`;
   public chats!: any[];
   public changeUserInfoForm!: FormGroup;
   private user!: IUser;
@@ -49,7 +52,9 @@ export class ProfilePageComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private transportResponse: TransportResponseService
   ) {
     this.changeUserInfoForm = this.formBuilder.group({
       username: ['username', Validators.required],
@@ -119,12 +124,6 @@ export class ProfilePageComponent implements OnInit {
     }
   }
 
-  public getUserInfo(): Subscription {
-    return this.httpClient.get<any>(this._userUrl).subscribe((res) => {
-      console.log(res);
-    });
-  }
-
   public getChatsInfo(): Subscription {
     return this.httpClient.get<any>(this._userChatsUrl).subscribe((res) => {
       this.chats = res.chats;
@@ -143,5 +142,18 @@ export class ProfilePageComponent implements OnInit {
         };
         this._auth.setData(data);
       });
+  }
+
+  public goToMessage(chatId: string){
+    this.httpClient.get<any>(this._getAnsver + chatId+'/messages')
+    .pipe(tap((res) => {
+              this.transportResponse.changeCode(res.messages[1].content);
+              this.router.navigate(['/response']);
+            })
+    ).subscribe( () => {},
+        (error) => {
+          console.error('Ошибка при получении ответа:', error);
+          }
+        );
   }
 }

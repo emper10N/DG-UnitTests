@@ -13,7 +13,9 @@ export class ProgrammingLanguageService {
   }
 
   public getFrameworks(language: string): Array<string> {
-    if (language === 'Python') return ['Flask', 'Django'];
+    if (language === 'python') return ['PyTest', 'Unittest'];
+    if (language === 'cpp') return ['GTest', 'Boost.Test'];
+    if (language === 'java') return ['JBehave', 'JUnit'];
     return [];
   }
 }

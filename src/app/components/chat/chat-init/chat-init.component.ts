@@ -71,10 +71,22 @@ export class ChatInitComponent implements OnInit {
       name: this.selectedLanguage!,
     };
 
-    this.httpClient.post<IChatId>(this._api, chat).subscribe((res: IChatId) => {
-      this.id = res.chatId;
-    });
+    this.httpClient.post<IChatId>(this._api, chat).pipe(
+      tap((res: IChatId) => {
+        this.continueWorkAfterChatInit(res.chatId);
+      })
+    ).
+    subscribe();
+  }
 
+  public async continueWorkAfterResponse(res: string) {
+    this.transportResponse.changeCode(res);
+    this.isLoading = false;
+    await this.router.navigate(['/response']);
+  }
+
+  public continueWorkAfterChatInit(id: string){
+    this.id = id;
     const message: IMessage = {
       model: this.selectedLanguage!,
       chatId: this.id,
@@ -107,11 +119,5 @@ export class ChatInitComponent implements OnInit {
           console.error('Ошибка при отправке сообщения:', error);
         }
       );
-  }
-
-  public async continueWorkAfterResponse(res: string) {
-    this.transportResponse.changeCode(res);
-    this.isLoading = false;
-    await this.router.navigate(['/response']);
   }
 }

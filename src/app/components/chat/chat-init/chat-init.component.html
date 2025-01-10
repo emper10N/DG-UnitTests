@@ -16,7 +16,7 @@
   <div class="chose-part">
     <div>
       <app-chose
-        [data]="['c', 'css', 'cpp', 'java', 'python']"
+        [data]="['c', 'cpp', 'java', 'python']"
         [name]="'язык'"
         [title]="'Язык программирования'"
         (selectedChange)="onLanguageChange($event)"
@@ -40,7 +40,7 @@
       ></app-chose>
       <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
       <div class="btn">
-        <button (click)="sendMessage()">Submit</button>
+        <button (click)="sendMessage()" [disabled]="isLoading">Submit</button>
       </div>
     </div>
   </div>
