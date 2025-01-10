@@ -1,3 +1,8 @@
+.wrapper{
+    display: grid;
+    margin-top: 10%;
+}
+
 label{
     font-family: Garamond;
     font-size: 30px;
@@ -30,21 +35,26 @@ button{
     width: 510px;
     height: 494px;
     text-align: center;
+    grid-row: 1;
+    margin-left: 15%;
 }
 
 .user-history-data{
     width: 1030px;
     text-align: center;
     padding-top: 10px;
+    grid-row: 1;
 }
 
 .change-btn{
     width: 400px;
     height: 54px;
+    margin-top: 30px;
 }
 
 
 input {
+    margin-top: 40px;
     background-color: #01141B;
     border-bottom: 2px white;
     width: 428px;
