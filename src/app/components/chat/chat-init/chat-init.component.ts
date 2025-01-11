@@ -44,6 +44,7 @@ export class ChatInitComponent implements OnInit {
   );
   public authService: AuthService = inject(AuthService);
   public framework: string| undefined;
+  public arr: string[] = ['c', 'cpp', 'java', 'python'];
 
   constructor(
     private httpClient: HttpClient,
@@ -58,11 +59,14 @@ export class ChatInitComponent implements OnInit {
   }
 
   public onLanguageChange(language: string): void {
-    this.selectedLanguage = language;
+    if (language!!) this.selectedLanguage = language;
+    else this.selectedLanguage = this.arr[0];
+
   }
 
   public onFramework(language: string): void {
-    this.framework = language;
+    if (language!!) this.framework = language;
+    else this.framework = this.onFrameworkChange()[0];
   }
 
   public onFrameworkChange(): string[] {
