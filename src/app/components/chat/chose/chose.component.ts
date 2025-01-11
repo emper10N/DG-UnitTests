@@ -8,10 +8,7 @@ import { ProgrammingLanguageService } from '../../../services/programming-langua
   selector: 'app-chose',
   standalone: true,
   imports: [
-    RouterOutlet,
     ReactiveFormsModule,
-    NgTemplateOutlet,
-    NgIf,
     CommonModule,
     FormsModule,
   ],
@@ -36,6 +33,7 @@ export class ChoseComponent {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedItem = selectElement.value;
     if (this.name === 'язык') this.selectedChange.emit(this.selectedItem);
+    if (this.name === 'фрейворк') this.selectedChange.emit(this.selectedItem);
     console.log(`Выбранный ${this.name}:`, this.selectedItem);
   }
 }

@@ -43,6 +43,7 @@ export class ChatInitComponent implements OnInit {
     ProgrammingLanguageService
   );
   public authService: AuthService = inject(AuthService);
+  public framework: string| undefined;
 
   constructor(
     private httpClient: HttpClient,
@@ -60,7 +61,11 @@ export class ChatInitComponent implements OnInit {
     this.selectedLanguage = language;
   }
 
-  public getFrameworks(): string[] {
+  public onFramework(language: string): void {
+    this.framework = language;
+  }
+
+  public onFrameworkChange(): string[] {
     return this.selectedLanguage
       ? this.choseLanguage.getFrameworks(this.selectedLanguage)
       : [];
@@ -78,6 +83,8 @@ export class ChatInitComponent implements OnInit {
     ).
     subscribe();
   }
+
+  
 
   public async continueWorkAfterResponse(res: string) {
     this.transportResponse.changeCode(res);
@@ -100,7 +107,7 @@ export class ChatInitComponent implements OnInit {
       
       Requirements:
       - Language: ${this.selectedLanguage}.
-      - Testing framework: ${this.getFrameworks()}.
+      - Testing framework: ${this.framework}.
       The answer should contain only valid test code without comments or explanations,
       but don't import this function and don't generate code of this function in answer also write code only without comments.
       ;`,

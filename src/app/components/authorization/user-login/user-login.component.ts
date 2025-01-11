@@ -18,9 +18,7 @@ import { IRequest, IUserData } from '../../../interfaces/request.interface';
   selector: 'app-login',
   standalone: true,
   imports: [
-    RouterOutlet,
     ReactiveFormsModule,
-    NgTemplateOutlet,
     NgIf,
     CommonModule,
     ValidatorsHandlerComponent,

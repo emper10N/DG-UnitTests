@@ -25,10 +25,11 @@
     </div>
     <div class="part">
       <app-chose
-        [data]="getFrameworks()"
+        [data]="onFrameworkChange()"
         [name]="'фреймворк'"
         [title]="'Framework для тестов'"
         styleClass="test-framework-style"
+        (selectedChange)="onFramework($event)"
       ></app-chose>
     </div>
     <div>

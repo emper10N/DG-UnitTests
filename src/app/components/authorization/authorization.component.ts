@@ -9,10 +9,7 @@ import { UserRegisterComponent } from './user-register/user-register.component';
   selector: 'app-authorization',
   standalone: true,
   imports: [
-    RouterOutlet,
     ReactiveFormsModule,
-    NgTemplateOutlet,
-    NgIf,
     CommonModule,
     UserRegisterComponent,
     UserLoginComponent,
