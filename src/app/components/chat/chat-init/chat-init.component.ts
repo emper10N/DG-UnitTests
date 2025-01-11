@@ -59,12 +59,14 @@ export class ChatInitComponent implements OnInit {
   }
 
   public onLanguageChange(language: string): void {
+    console.log(language);
     if (language!!) this.selectedLanguage = language;
     else this.selectedLanguage = this.arr[0];
 
   }
 
   public onFramework(language: string): void {
+    console.log(language);
     if (language!!) this.framework = language;
     else this.framework = this.onFrameworkChange()[0];
   }
