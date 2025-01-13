@@ -33,7 +33,6 @@ import { AuthService } from '../../../services/auth/auth.service';
   styleUrl: 'style/chat-init.main.scss',
 })
 export class ChatInitComponent implements OnInit {
-  public selectedLanguage: string | undefined;
   private _api: string = 'http://localhost:5001/api/v1/chats';
   private _apiMessage: string = 'http://localhost:5001/api/v1/messages';
   public id!: string;
@@ -43,8 +42,9 @@ export class ChatInitComponent implements OnInit {
     ProgrammingLanguageService
   );
   public authService: AuthService = inject(AuthService);
-  public framework: string| undefined;
+  public framework: string = this.onFrameworkChange()[0];
   public arr: string[] = ['c', 'cpp', 'java', 'python'];
+  public selectedLanguage: string = this.arr[0];
 
   constructor(
     private httpClient: HttpClient,
@@ -62,7 +62,7 @@ export class ChatInitComponent implements OnInit {
     console.log(language);
     if (language!!) this.selectedLanguage = language;
     else this.selectedLanguage = this.arr[0];
-
+    this.framework = this.onFrameworkChange()[0];
   }
 
   public onFramework(language: string): void {
@@ -118,6 +118,7 @@ export class ChatInitComponent implements OnInit {
       but don't import this function and don't generate code of this function in answer also write code only without comments.
       ;`,
     };
+    console.log(message);
     this.isLoading = true;
     this.httpClient
       .post<IContent>(this._apiMessage, message)

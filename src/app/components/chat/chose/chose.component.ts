@@ -32,8 +32,6 @@ export class ChoseComponent {
   public onSelectChange(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     this.selectedItem = selectElement.value;
-    if (this.name === 'язык') this.selectedChange.emit(this.selectedItem);
-    if (this.name === 'фреймворк') this.selectedChange.emit(this.selectedItem);
-    console.log(`Выбранный ${this.name}:`, this.selectedItem);
+    this.selectedChange.emit(this.selectedItem);
   }
 }
