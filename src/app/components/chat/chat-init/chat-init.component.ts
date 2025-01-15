@@ -43,7 +43,7 @@ export class ChatInitComponent implements OnInit {
   );
   public authService: AuthService = inject(AuthService);
   public framework: string = this.onFrameworkChange()[0];
-  public arr: string[] = ['c', 'cpp', 'java', 'python'];
+  public arr: string[] = ['csh', 'cpp', 'java', 'python', 'js', 'ts'];
   public selectedLanguage: string = this.arr[0];
 
   constructor(

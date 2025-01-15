@@ -16,6 +16,9 @@ export class ProgrammingLanguageService {
     if (language === 'python') return ['PyTest', 'Unittest'];
     if (language === 'cpp') return ['GTest', 'Boost.Test'];
     if (language === 'java') return ['JBehave', 'JUnit'];
+    if (language == 'csh') return ['NUnit', 'xUnit', 'MSTest'];
+    if (language === 'js') return ['Jest', 'Mocha', ' Jasmine'];
+    if (language === 'ts') return ['Jest', 'AVA'];
     return [];
   }
 }
