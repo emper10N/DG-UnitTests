@@ -38,8 +38,6 @@ import { TransportResponseService } from '../../services/transport-response/tran
     CommonModule,
     FormsModule,
     ValidatorsHandlerComponent,
-    RouterOutlet,
-    RouterLink,
   ],
   templateUrl: 'profile-page.component.html',
   styleUrl: 'style/profile-page.main.scss',

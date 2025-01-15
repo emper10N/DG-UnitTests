@@ -113,7 +113,10 @@ export class TextHighlighterComponent implements OnInit {
     const message: IMessage = {
       model: lang,
       chatId: this.id,
-      message: `Fix this unit test function: ${this.selectedCode}`,
+      message: `Fix this unit test function: ${this.selectedCode}
+      
+      The answer should contain only valid test code without comments or explanations,
+      but don't import this function and don't generate code of this function in answer also write code only without comments.`,
     };
     this.httpClient
       .post<IContent>(this._apiMessage, message)
