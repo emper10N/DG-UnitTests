@@ -82,23 +82,25 @@ export class ChatInitComponent implements OnInit {
       name: this.selectedLanguage!,
     };
 
-    this.httpClient.post<IChatId>(this._api, chat).pipe(
-      tap((res: IChatId) => {
-        this.continueWorkAfterChatInit(res.chatId);
-      })
-    ).
-    subscribe();
+    this.httpClient
+      .post<IChatId>(this._api, chat)
+      .pipe(
+        tap((res: IChatId) => {
+          this.continueWorkAfterChatInit(res.chatId);
+        })
+      )
+      .subscribe();
   }
-
-  
 
   public async continueWorkAfterResponse(res: string) {
     this.transportResponse.changeCode(res);
     this.isLoading = false;
-    await this.router.navigate(['/response']);
+    await this.router.navigate(['/response'], {
+      queryParams: { id: this.id },
+    });
   }
 
-  public continueWorkAfterChatInit(id: string){
+  public continueWorkAfterChatInit(id: string) {
     this.id = id;
     const message: IMessage = {
       model: this.selectedLanguage!,
@@ -118,7 +120,6 @@ export class ChatInitComponent implements OnInit {
       but don't import this function and don't generate code of this function in answer also write code only without comments.
       ;`,
     };
-    console.log(message);
     this.isLoading = true;
     this.httpClient
       .post<IContent>(this._apiMessage, message)

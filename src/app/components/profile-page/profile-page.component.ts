@@ -22,7 +22,12 @@ import { InputControlComponent } from '../input-control/input-control.component'
 import { ValidatorsHandlerComponent } from '../../validators-handler/validators-handler.component';
 import { IUser } from '../../interfaces/user.interface';
 import { AuthService } from '../../services/auth/auth.service';
-import { Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterOutlet,
+} from '@angular/router';
 import { TransportResponseService } from '../../services/transport-response/transport-response.service';
 
 @Component({
@@ -33,6 +38,8 @@ import { TransportResponseService } from '../../services/transport-response/tran
     CommonModule,
     FormsModule,
     ValidatorsHandlerComponent,
+    RouterOutlet,
+    RouterLink,
   ],
   templateUrl: 'profile-page.component.html',
   styleUrl: 'style/profile-page.main.scss',
@@ -52,6 +59,7 @@ export class ProfilePageComponent implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private router: Router,
     private transportResponse: TransportResponseService
@@ -131,7 +139,6 @@ export class ProfilePageComponent implements OnInit {
   }
 
   public updateUserInfo(user: IUser): Subscription {
-    debugger;
     return this.httpClient
       .put<IUserData>(this._userUrl, user)
       .subscribe((res) => {
@@ -144,16 +151,24 @@ export class ProfilePageComponent implements OnInit {
       });
   }
 
-  public goToMessage(chatId: string){
-    this.httpClient.get<any>(this._getAnsver + chatId+'/messages')
-    .pipe(tap((res) => {
-              this.transportResponse.changeCode(res.messages[1].content);
-              this.router.navigate(['/response']);
-            })
-    ).subscribe( () => {},
+  public goToMessage(chatId: string) {
+    this.httpClient
+      .get<any>(this._getAnsver + chatId + '/messages')
+      .pipe(
+        tap((res) => {
+          this.transportResponse.changeCode(
+            res.messages[res.messages.length - 1].content
+          );
+          this.router.navigate(['/response'], {
+            queryParams: { id: chatId },
+          });
+        })
+      )
+      .subscribe(
+        () => {},
         (error) => {
           console.error('Ошибка при получении ответа:', error);
-          }
-        );
+        }
+      );
   }
 }
