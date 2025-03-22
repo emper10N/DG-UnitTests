@@ -83,3 +83,92 @@ button[disabled] {
   background-color: lightgray;
   cursor: not-allowed;
 }
+
+@media (max-width: 1900px) {
+  .content {
+    display: grid;
+    padding-left: 76.666px; /* 92px * 0.8333 */
+    padding-right: 76.666px; /* 92px * 0.8333 */
+    padding-top: 36.666px; /* 44px * 0.8333 */
+  }
+
+  .code-part {
+    grid-column: 1;
+  }
+
+  .chose-part {
+    grid-column: 2;
+  }
+
+  textarea {
+    background-color: #a6b4c7;
+    width: 931.666px; /* 1118px * 0.8333 */
+    border-radius: 8.333px; /* 10px * 0.8333 */
+    outline: none;
+    resize: none;
+    height: 208.333px; /* 250px * 0.8333 */
+    box-sizing: border-box;
+    border: none;
+    font-family: "EB Garamond", serif;
+    font-size: 25px; /* 30px * 0.8333 */
+    line-height: 28.125px; /* 33.75px * 0.8333 */
+    color: #ffffff;
+    align-items: center;
+    padding: 8.333px; /* 10px * 0.8333 */
+  }
+
+  textarea::placeholder {
+    font-family: "EB Garamond", serif;
+    font-size: 25px; /* 30px * 0.8333 */
+    line-height: 28.125px; /* 33.75px * 0.8333 */
+    color: #ffffff;
+    align-items: center;
+    padding: 8.333px; /* 10px * 0.8333 */
+  }
+
+  label {
+    font-family: "EB Garamond", serif;
+    font-size: 25px; /* 30px * 0.8333 */
+    line-height: 28.125px; /* 33.75px * 0.8333 */
+    color: #ffffff;
+  }
+
+  .submit-content {
+    padding-bottom: 78.333px; /* 94px * 0.8333 */
+    padding-top: 78.333px; /* 94px * 0.8333 */
+    display: grid;
+    width: 100%;
+  }
+
+  .text {
+    grid-column: 1;
+  }
+
+  .btn {
+    padding-top: 208.333px; /* 250px * 0.8333 */
+    width: auto;
+    height: auto;
+    grid-column: 2;
+  }
+
+  button {
+    margin-left: 20px;
+    width: 422.5px; /* 507px * 0.8333 */
+    height: 83.333px; /* 100px * 0.8333 */
+    background-color: #a2ff88;
+    counter-reset: #ffffff;
+    font-family: "EB Garamond", serif;
+    font-size: 25px; /* 30px * 0.8333 */
+    line-height: 28.125px; /* 33.75px * 0.8333 */
+    color: #ffffff;
+    align-items: center;
+    padding: 8.333px; /* 10px * 0.8333 */
+    border: none;
+    border-radius: 8.333px; /* 10px * 0.8333 */
+  }
+
+  button[disabled] {
+    background-color: lightgray;
+    cursor: not-allowed;
+  }
+}
