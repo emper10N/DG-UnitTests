@@ -64,7 +64,7 @@ label {
   grid-column: 2;
 }
 
-button {
+.bttn {
   width: 507px;
   height: 100px;
   background-color: #a2ff88;
@@ -77,6 +77,13 @@ button {
   padding: 10px;
   border: none;
   border-radius: 10px;
+
+  &.dark-theme {
+    background-color: #01141b;
+    border: 1px solid #fab689;
+    box-shadow: 0 0 10px rgba(235, 182, 8, 0.2),
+      0 0 20px rgba(235, 182, 7, 0.87), 0px 6px 1px 1px rgba(236, 174, 4, 0);
+  }
 }
 
 button[disabled] {
@@ -151,10 +158,10 @@ button[disabled] {
     grid-column: 2;
   }
 
-  button {
+  .bttn {
     margin-left: 20px;
-    width: 422.5px; /* 507px * 0.8333 */
-    height: 83.333px; /* 100px * 0.8333 */
+    width: 422.5px;
+    height: 83.333px;
     background-color: #a2ff88;
     counter-reset: #ffffff;
     font-family: "EB Garamond", serif;
@@ -165,6 +172,13 @@ button[disabled] {
     padding: 8.333px; /* 10px * 0.8333 */
     border: none;
     border-radius: 8.333px; /* 10px * 0.8333 */
+
+    &.dark-theme {
+      background-color: #01141b;
+      border: 1px solid #fab689;
+      box-shadow: 0 0 10px rgba(235, 182, 8, 0.2),
+        0 0 20px rgba(235, 182, 7, 0.87), 0px 6px 1px 1px rgba(236, 174, 4, 0);
+    }
   }
 
   button[disabled] {

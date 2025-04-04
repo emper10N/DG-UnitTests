@@ -6,6 +6,12 @@
   padding: 0px;
   margin-top: 21px;
   margin-left: 20px;
+  &.dark-theme {
+    background-color: #01141b;
+    border: 1px solid #fab689;
+    box-shadow: 0 0 10px rgba(235, 182, 8, 0.2),
+      0 0 20px rgba(235, 182, 7, 0.87), 0px 6px 1px 1px rgba(236, 174, 4, 0);
+  }
 }
 
 label {
@@ -14,11 +20,23 @@ label {
   font-weight: 400;
   line-height: 33.75px;
   color: #ffffff;
+  &.dark-theme {
+    background-color: #01141b;
+    border: 1px solid #fab689;
+    box-shadow: 0 0 10px rgba(235, 182, 8, 0.2),
+      0 0 20px rgba(235, 182, 7, 0.87), 0px 6px 1px 1px rgba(236, 174, 4, 0);
+  }
 }
 
-option {
+.opt {
   background-color: #fab689;
   border-radius: 10px;
+  &.dark-theme {
+    background-color: #01141b;
+    border: 1px solid #fab689;
+    box-shadow: 0 0 10px rgba(235, 182, 8, 0.2),
+      0 0 20px rgba(235, 182, 7, 0.87), 0px 6px 1px 1px rgba(236, 174, 4, 0);
+  }
 }
 
 select {
@@ -33,16 +51,34 @@ select {
   line-height: 33.75px;
   padding-left: 42px;
   color: #ffffff;
+  &.dark-theme {
+    background-color: #01141b;
+    border: 1px solid #fab689;
+    box-shadow: 0 0 10px rgba(235, 182, 8, 0.2),
+      0 0 20px rgba(235, 182, 7, 0.87), 0px 6px 1px 1px rgba(236, 174, 4, 0);
+  }
 }
 
 select:hover {
   border-color: #fab689;
   border-radius: 10px;
+  &.dark-theme {
+    background-color: #01141b;
+    border: 1px solid #fab689;
+    box-shadow: 0 0 10px rgba(235, 182, 8, 0.2),
+      0 0 20px rgba(235, 182, 7, 0.87), 0px 6px 1px 1px rgba(236, 174, 4, 0);
+  }
 }
 
 select:focus {
   border-color: #fab689;
   border-radius: 10px;
+  &.dark-theme {
+    background-color: #01141b;
+    border: 1px solid #fab689;
+    box-shadow: 0 0 10px rgba(235, 182, 8, 0.2),
+      0 0 20px rgba(235, 182, 7, 0.87), 0px 6px 1px 1px rgba(236, 174, 4, 0);
+  }
 }
 
 .programming-lang-style {
